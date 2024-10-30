@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAVED CHATS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-top: 20px;
+            font-size: 24px;
+        }
+        
+        #mes {
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #e8f7ff;
+            margin: 8px 0;
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+            font-size: 16px;
+            color: #555;
+        }
+        
+        li:hover {
+            background-color: #d0ebff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Saved Chat Messages</h1>
+    <div id="mes">
+        <ul id="messagesList"></ul>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", get);
+
+        function get() {
+            const messagesList = document.getElementById("messagesList");
+            
+            fetch("https://chatsaver.vercel.app/view")
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(item => {
+                        const li = document.createElement("li");
+                        li.textContent = item.Code; // Display the 'Code' field from each document
+                        messagesList.appendChild(li);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error fetching data:", error);
+                    messagesList.innerHTML = "<li>Failed to load messages.</li>";
+                });
+        }
+    </script>
+</body>
+</html>
